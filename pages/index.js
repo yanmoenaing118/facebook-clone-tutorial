@@ -10,7 +10,7 @@ export default function Home({ session }) {
   if (!session) return <Login />;
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden bg-gray-100">
       <Head>
         <title>Facebook</title>
         <meta name="description" content="Facebook social media app" />
