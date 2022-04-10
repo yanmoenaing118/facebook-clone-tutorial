@@ -64,7 +64,7 @@ export default function Header() {
             layout="fixed"
             className="rounded-full"
           />
-          <p className="font-semibold pr-3 whitespace-nowrap">
+          <p className="font-semibold pr-3 whitespace-nowrap hidden sm:block">
             {session.user.name}
           </p>
         </div>

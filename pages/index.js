@@ -2,18 +2,23 @@ import Head from "next/head";
 import Header from "../components/Heade";
 import { getSession, useSession } from "next-auth/react";
 import Login from "../components/Login";
+import Sidebar from "../components/Sidebar";
+
 
 export default function Home({ session }) {
   console.log(session);
   if (!session) return <Login />;
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <Head>
         <title>Facebook</title>
         <meta name="description" content="Facebook social media app" />
       </Head>
       <Header />
+      <main>
+        <Sidebar />
+      </main>
     </div>
   );
 }
