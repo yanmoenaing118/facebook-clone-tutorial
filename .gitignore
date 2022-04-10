@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+fb-connect.js
+
 # testing
 /coverage
 
