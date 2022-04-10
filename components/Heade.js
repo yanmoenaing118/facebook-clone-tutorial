@@ -53,6 +53,10 @@ export default function Header() {
       {/** right */}
       <div className="flex items-center sm:space-x-2">
         <p className="font-semibold pr-3 whitespace-nowrap">Yan Moe Naing</p>
+        <ViewGridIcon className="icon" />
+        <ChatIcon className="icon" />
+        <BellIcon className="icon" />
+        <ChevronDownIcon className="icon" />
       </div>
     </header>
   );
