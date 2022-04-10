@@ -1,5 +1,8 @@
 import Image from "next/image";
+import { useSession, signIn } from "next-auth/react";
+
 export default function Login() {
+  const handleSignIn = () => signIn(); 
   return (
     <div className="grid place-items-center">
       <Image
@@ -9,7 +12,12 @@ export default function Login() {
         objectFit="contain"
       />
 
-      <h1 className="p-5 bg-blue-500 rounded-full text-white text-center cursor-pointer">Login with Facebook</h1>
+      <h1
+        onClick={handleSignIn}
+        className="p-5 bg-blue-500 rounded-full text-white text-center cursor-pointer"
+      >
+        Login with Facebook
+      </h1>
     </div>
   );
 }
