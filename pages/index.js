@@ -3,6 +3,7 @@ import Header from "../components/Heade";
 import { getSession, useSession } from "next-auth/react";
 import Login from "../components/Login";
 import Sidebar from "../components/Sidebar";
+import Feed from "../components/feed";
 
 
 export default function Home({ session }) {
@@ -16,8 +17,9 @@ export default function Home({ session }) {
         <meta name="description" content="Facebook social media app" />
       </Head>
       <Header />
-      <main>
+      <main className="flex">
         <Sidebar />
+        <Feed />
       </main>
     </div>
   );
