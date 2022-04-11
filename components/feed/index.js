@@ -1,5 +1,6 @@
 import Stories from "./Stories";
 import InputBox from "./InputBox";
+import "./../../firebase"
 
 export default function Feed() {
   return (

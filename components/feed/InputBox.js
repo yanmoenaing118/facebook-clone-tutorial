@@ -1,5 +1,10 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { useRef } from "react";
+import { db } from "../../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import firebase from "firebase/app";
+
 import {
   VideoCameraIcon,
   EmojiHappyIcon,
@@ -8,10 +13,23 @@ import {
 
 export default function InputBox() {
   const { data: session } = useSession();
+  const inputRef = useRef();
 
   const submitPost = (e) => {
     e.preventDefault();
-    console.log("sub");
+    if (!inputRef.current.value) return;
+    console.log(inputRef.current.value);
+
+    addDoc(collection(db, "posts"), {
+      message: inputRef.current.value,
+      name: session.user.name,
+      email: session.user.email,
+      image: session.user.image,
+      timestamp: Date.now(),
+    }).then((doc) => {
+      console.log(doc.id);
+      inputRef.current.value = "";
+    });
   };
 
   return (
@@ -28,6 +46,7 @@ export default function InputBox() {
 
         <form onSubmit={submitPost} className="flex flex-1">
           <input
+            ref={inputRef}
             type="text"
             placeholder={`What's on your mind, ${session.user.name}?`}
             className="w-full px-5 py-3 rounded-full outline-none bg-gray-100 text-gray-700 placeholder-gray-600"
