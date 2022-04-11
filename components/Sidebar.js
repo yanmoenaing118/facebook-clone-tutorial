@@ -16,7 +16,7 @@ import Image from "next/image";
 export default function Sidebar() {
   const { data: session } = useSession();
   return (
-    <div className="p-2 mt-5 max-w-[80px] sm:max-w-[220px]">
+    <div className="p-2 hidden sm:block mt-5 max-w-[80px] sm:max-w-[220px]">
       <SidebarRow src={session.user.image} title={session.user.name} />
       <SidebarRow Icon={UsersIcon} title="Friends" />
       <SidebarRow Icon={UserGroupIcon} title="Groups" />

@@ -1,13 +1,18 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import {
+  VideoCameraIcon,
+  EmojiHappyIcon,
+  CameraIcon,
+} from "@heroicons/react/solid";
 
 export default function InputBox() {
   const { data: session } = useSession();
 
   const submitPost = (e) => {
     e.preventDefault();
-    console.log('sub')
-  }
+    console.log("sub");
+  };
 
   return (
     <div className="flex flex-col mt-5 bg-white p-5 rounded-md">
@@ -31,9 +36,28 @@ export default function InputBox() {
         </form>
       </div>
 
-      <hr className="mt-5" />
+      <hr className="my-5" />
 
-      <div>love</div>
+      <div className="flex">
+        <div className="inputIcon">
+          <VideoCameraIcon className="h-7 text-red-600" />
+          <p className="text-gray-500 text-sm  md:text-base whitespace-nowrap font-bold">
+            Live Video
+          </p>
+        </div>
+        <div className="inputIcon">
+          <CameraIcon className="h-7 text-green-400" />
+          <p className="text-gray-500 text-sm  md:text-base whitespace-nowrap font-bold">
+            Photos/Video
+          </p>
+        </div>
+        <div className="inputIcon  ">
+          <EmojiHappyIcon className="h-7 text-yellow-400" />
+          <p className="text-gray-500 text-sm  md:text-base whitespace-nowrap font-bold">
+            Feeling / activities
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
