@@ -41,7 +41,7 @@ function StoryCard({ name, src, profile }) {
   return (
     <div className="relative flex-1 h-10 w-10 sm:h-12 sm:w-12 lg:h-36 lg:w-20 group overflow-hidden cursor-pointer">
       <Image
-        className="opacity-0 lg:opacity-100 rounded-full absolute z-50 top-3 right-3"
+        className="opacity-0 lg:opacity-100 rounded-full absolute z-10 top-3 right-3"
         src={profile}
         width={36}
         height={36}

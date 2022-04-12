@@ -22,7 +22,7 @@ import HeaderIcon from "../components/HeaderIcon";
 export default function Header() {
   const { data: session } = useSession();
   return (
-    <header className="flex bg-white items-center sticky top-0 z-50 p-2 lg:px-5 shadow-md">
+    <header className="flex bg-white items-center sticky top-0 z-40 p-2 lg:px-5 shadow-md">
       {/** left */}
       <div className="flex items-center">
         <Image

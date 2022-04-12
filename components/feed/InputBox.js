@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 import { db, storage } from "../../firebase";
-import { collection, addDoc, setDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 
 import {
@@ -25,7 +25,7 @@ export default function InputBox() {
       name: session.user.name,
       email: session.user.email,
       image: session.user.image,
-      timestamp: Date.now(),
+      timestamp: serverTimestamp(),
     }).then((doc) => {
       console.log(doc.id);
       if (imagePost) {
