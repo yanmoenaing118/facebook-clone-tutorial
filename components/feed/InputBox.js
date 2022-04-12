@@ -2,7 +2,12 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 import { db, storage } from "../../firebase";
-import { collection, addDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 
 import {
@@ -33,9 +38,12 @@ export default function InputBox() {
 
         uploadString(storageRef, imagePost, "data_url").then((snapshot) => {
           getDownloadURL(storageRef).then((url) => {
-            setDoc(doc, { postImage: url }, { merge: true }).then((docRef) => {
-              console.log(docRef);
-            });
+            setDoc(doc, { postImage: url }, { merge: true }).then(
+              (docRef) => {
+                removeImage();
+                inputRef.current.value = ""
+              }
+            );
           });
         });
       }
@@ -51,6 +59,8 @@ export default function InputBox() {
       setImagePost(event.target.result);
     };
   };
+
+  const removeImage = () => setImagePost(null);
 
   return (
     <div className="flex flex-col mt-5 bg-white p-5 rounded-md">
