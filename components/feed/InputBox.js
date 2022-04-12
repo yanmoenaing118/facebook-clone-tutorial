@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useRef } from "react";
-import { db } from "../../firebase";
-import { collection, addDoc } from "firebase/firestore";
-import firebase from "firebase/app";
+import { useRef, useState } from "react";
+import { db, storage } from "../../firebase";
+import { collection, addDoc, setDoc } from "firebase/firestore";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 
 import {
   VideoCameraIcon,
@@ -13,13 +13,13 @@ import {
 
 export default function InputBox() {
   const { data: session } = useSession();
-  const inputRef = useRef();
+  const inputRef = useRef(null);
+  const fileRef = useRef(null);
+  const [imagePost, setImagePost] = useState(null);
 
   const submitPost = (e) => {
     e.preventDefault();
     if (!inputRef.current.value) return;
-    console.log(inputRef.current.value);
-
     addDoc(collection(db, "posts"), {
       message: inputRef.current.value,
       name: session.user.name,
@@ -28,8 +28,28 @@ export default function InputBox() {
       timestamp: Date.now(),
     }).then((doc) => {
       console.log(doc.id);
-      inputRef.current.value = "";
+      if (imagePost) {
+        const storageRef = ref(storage, `posts/${doc.id}`);
+
+        uploadString(storageRef, imagePost, "data_url").then((snapshot) => {
+          getDownloadURL(storageRef).then((url) => {
+            setDoc(doc, { postImage: url }, { merge: true }).then((docRef) => {
+              console.log(docRef);
+            });
+          });
+        });
+      }
     });
+  };
+
+  const handleFileSelected = () => {
+    let file = fileRef.current.files[0];
+    let freader = new FileReader();
+    freader.readAsDataURL(file);
+
+    freader.onload = (event) => {
+      setImagePost(event.target.result);
+    };
   };
 
   return (
@@ -53,6 +73,16 @@ export default function InputBox() {
           />
           <input type="submit" hidden />
         </form>
+
+        {imagePost && (
+          <Image
+            src={imagePost}
+            width={80}
+            height={80}
+            objectFit="contain"
+            layout="fixed"
+          />
+        )}
       </div>
 
       <hr className="my-5" />
@@ -64,11 +94,17 @@ export default function InputBox() {
             Live Video
           </p>
         </div>
-        <div className="inputIcon">
+        <div className="inputIcon" onClick={() => fileRef.current.click()}>
           <CameraIcon className="h-7 text-green-400" />
           <p className="text-gray-500 text-sm  md:text-base whitespace-nowrap font-bold">
             Photos/Video
           </p>
+          <input
+            ref={fileRef}
+            type="file"
+            hidden
+            onChange={handleFileSelected}
+          />
         </div>
         <div className="inputIcon  ">
           <EmojiHappyIcon className="h-7 text-yellow-400" />
