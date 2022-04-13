@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../../firebase";
 
-export default function Posts() {
+export default function Posts({ list }) {
+  console.log(list);
   const postsRef = collection(db, "posts");
   const q = query(postsRef, orderBy("timestamp", "desc"));
 
@@ -18,7 +19,13 @@ export default function Posts() {
 
   return (
     <div>
-      {!loading && (
+      {loading ? (
+        <div>
+          {list.map((doc) => {
+            return <Post key={doc.id} post={doc} />;
+          })}
+        </div>
+      ) : (
         <div>
           {snapshots.docs.map((doc) => {
             return <Post key={doc.id} post={doc.data()} />;
@@ -45,8 +52,9 @@ function Post({ post }) {
         <div>
           <p className="font-bold text-sm">{post.name}</p>
           <p className="text-xs font-bold text-gray-600">
-            {post?.timestamp &&
-              new Date(post?.timestamp.toDate()).toDateString()}
+            {post?.timestamp
+              ? new Date(post?.timestamp.toDate()).toDateString()
+              : null}
           </p>
         </div>
       </div>
